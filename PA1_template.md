@@ -67,7 +67,7 @@ hist(totalPerDayNew$x, breaks = 20, main = "Total number of steps per day", xlab
 meanTNew<-mean(totalPerDayNew$x, na.rm = TRUE)
 medianTNew<-median(totalPerDayNew$x, na.rm=TRUE)
 ```
-The new mean and median are respectively 1.0766189\times 10^{4} and 1.0766189\times 10^{4}.
+The new mean and median are respectively 10766.1886792 and 10766.1886792.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

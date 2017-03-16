@@ -9,6 +9,7 @@ output:
 ## Loading and preprocessing the data
 ```{r echo=FALSE}
 activity<-read.csv("activity.csv")
+options(scipen = 999)
 ```
 
 
