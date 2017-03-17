@@ -34,6 +34,11 @@ meanIntervalPerDay<-aggregate(activity$steps, by=list(activity$interval), FUN=me
 plot(x=meanIntervalPerDay, main="Average daily activity", type="l")
 ```
 
+## What is the interval with maximum steps?
+```{r}
+maxSteps<-meanIntervalPerDay[which.max(meanIntervalPerDay$x),]
+```
+The interval with maximum steps is `r maxSteps$Group.1`, with average steps being `r maxSteps$x`
 
 ## Imputing missing values
 ```{r}

@@ -33,6 +33,12 @@ plot(x=meanIntervalPerDay, main="Average daily activity", type="l")
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
+## What is the interval with maximum steps?
+
+```r
+maxSteps<-meanIntervalPerDay[which.max(meanIntervalPerDay$x),]
+```
+The interval with maximum steps is 835, with average steps being 206.1698113
 
 ## Imputing missing values
 
@@ -61,7 +67,7 @@ totalPerDayNew<-aggregate(resultData$steps, by=list(activity$date), FUN=sum)
 hist(totalPerDayNew$x, breaks = 20, main = "Total number of steps per day", xlab = "Number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 meanTNew<-mean(totalPerDayNew$x, na.rm = TRUE)
@@ -97,4 +103,4 @@ plot(meanWeekday, ylab="Steps Week", xlab="", type="l", xaxt="n", main="Activity
 plot(meanWeekend, ylab="Steps Weekend", xlab="", type="l", lwd=1.5, col="darkblue")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
