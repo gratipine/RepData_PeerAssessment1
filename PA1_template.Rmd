@@ -7,7 +7,7 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r echo=FALSE}
+```{r}
 activity<-read.csv("activity.csv")
 options(scipen = 999)
 ```
@@ -45,8 +45,9 @@ The interval with maximum steps is `r maxSteps$Group.1`, with average steps bein
 NAs<-sum(is.na(activity$steps))
 ```
 The total number of missing values we need to take care of is `r NAs`.
-###Imputing missing values
 
+###Imputing missing values - strategy
+An easy way to get some meaningful values instead of missing ones is to get the average across all the days for that specific interval. This seems to be a better strategy than getting average for a day, as there are some days for which there are no measurements. 
 ```{r}
 resultData<-activity
 for (i in 1:nrow(resultData)){

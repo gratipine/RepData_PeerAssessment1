@@ -122,6 +122,8 @@ $(document).ready(function () {
 
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
+<pre class="r"><code>activity&lt;-read.csv(&quot;activity.csv&quot;)
+options(scipen = 999)</code></pre>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
@@ -152,7 +154,10 @@ plot(x=meanIntervalPerDay, main=&quot;Average daily activity&quot;, type=&quot;l
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
 <pre class="r"><code>NAs&lt;-sum(is.na(activity$steps))</code></pre>
-<p>The total number of missing values we need to take care of is 2304. ###Imputing missing values</p>
+<p>The total number of missing values we need to take care of is 2304.</p>
+<div id="imputing-missing-values---strategy" class="section level3">
+<h3>Imputing missing values - strategy</h3>
+<p>An easy way to get some meaningful values instead of missing ones is to get the average across all the days for that specific interval. This seems to be a better strategy than getting average for a day, as there are some days for which there are no measurements.</p>
 <pre class="r"><code>resultData&lt;-activity
 for (i in 1:nrow(resultData)){
   if(is.na(resultData$steps[i])){
@@ -160,6 +165,7 @@ for (i in 1:nrow(resultData)){
   }
 }
 rm(&quot;i&quot;)</code></pre>
+</div>
 <div id="new-statistics-calculated-after-taking-care-of-the-missing-values" class="section level3">
 <h3>New statistics calculated after taking care of the missing values</h3>
 <pre class="r"><code>totalPerDayNew&lt;-aggregate(resultData$steps, by=list(activity$date), FUN=sum)

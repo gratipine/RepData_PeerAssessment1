@@ -3,6 +3,10 @@
 
 ## Loading and preprocessing the data
 
+```r
+activity<-read.csv("activity.csv")
+options(scipen = 999)
+```
 
 
 ## What is mean total number of steps taken per day?
@@ -46,8 +50,9 @@ The interval with maximum steps is 835, with average steps being 206.1698113
 NAs<-sum(is.na(activity$steps))
 ```
 The total number of missing values we need to take care of is 2304.
-###Imputing missing values
 
+###Imputing missing values - strategy
+An easy way to get some meaningful values instead of missing ones is to get the average across all the days for that specific interval. This seems to be a better strategy than getting average for a day, as there are some days for which there are no measurements. 
 
 ```r
 resultData<-activity
