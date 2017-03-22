@@ -31,8 +31,9 @@ The mean of the total steps per day is 9354.2295082 and the median is 10395.
 ## What is the average daily activity pattern?
 
 ```r
-meanIntervalPerDay<-aggregate(activity$steps, by=list(activity$interval), FUN=mean, na.rm=TRUE)
-plot(x=meanIntervalPerDay, main="Average daily activity", type="l")
+meanIntervals<-aggregate(activity$steps, by=list(activity$interval), FUN=mean, na.rm=TRUE)
+names(meanIntervals)<-c("interval", "steps")
+plot(x=meanIntervals, main="Average daily activity", type="l")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -40,7 +41,7 @@ plot(x=meanIntervalPerDay, main="Average daily activity", type="l")
 ## What is the interval with maximum steps?
 
 ```r
-maxSteps<-meanIntervalPerDay[which.max(meanIntervalPerDay$x),]
+maxSteps<-meanIntervals[which.max(meanIntervals$steps),]
 ```
 The interval with maximum steps is 835, with average steps being 206.1698113
 
@@ -56,12 +57,28 @@ An easy way to get some meaningful values instead of missing ones is to get the 
 
 ```r
 resultData<-activity
-for (i in 1:nrow(resultData)){
-  if(is.na(resultData$steps[i])){
-    resultData$steps[i]<-mean(resultData$steps[resultData$interval==resultData$interval[i]], na.rm = TRUE)
-  }
-}
-rm("i")
+library(plyr)
+```
+
+```
+## Warning: package 'plyr' was built under R version 3.3.2
+```
+
+```r
+#create a data frame with just the missing values we need
+missing<-resultData[is.na(resultData$steps),]
+#merge the missing values data frame with the means per interval
+missing<-merge(missing, meanIntervals, by = "interval")
+#delete unnecessary repeating column with missing values
+missing<-missing[,-2]
+names(missing)[3]<-"steps"
+#remove the rows with missing values and put in the rows from the completed data frame
+resultData<-na.omit(resultData)
+resultData<-rbind(resultData, missing)
+rm("missing")
+
+#arrange the date since it was mixed up by the bind
+resultData<-arrange(resultData, resultData$date, resultData$interval)
 ```
 
 ###New statistics calculated after taking care of the missing values
@@ -85,17 +102,10 @@ The new mean and median are respectively 10766.1886792 and 10766.1886792.
 
 
 ```r
-days<-weekdays(as.Date(resultData$date))
-resultData$weekdays<-"day"
-for (i in 1:nrow(resultData)){
-  if(days[i]=="Saturday"|days[i]=="Sunday")
-    resultData$weekdays[i]<-"weekend"
-  else
-    resultData$weekdays[i]<-"weekday"
-}
-rm("i")
+resultData$days<-weekdays(as.Date(resultData$date))
+resultData$weekdays<-"weekday"
+resultData$weekdays[which(resultData$days=="Saturday"|resultData$days=="Sunday")]<-"weekend"
 ```
-
 
 
 ```r
